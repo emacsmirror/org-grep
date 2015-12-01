@@ -5,6 +5,7 @@
 ;; Author: François Pinard <pinard@iro.umontreal.ca>
 ;; Maintainer: François Pinard <pinard@iro.umontreal.ca>
 ;; URL: https://github.com/pinard/org-grep
+;; Package-Requires: ((cl-lib "0.5"))
 
 ;; This is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
@@ -33,6 +34,11 @@
 ;;; Code:
 
 (require 'org)
+(require 'cl-lib)
+
+(defgroup org-grep nil
+  "Kind of M-x rgrep adapted for Org mode."
+  :group 'org)
 
 (defvar org-grep-directories (list org-directory)
   "List of directories to search, default is org-directory only.")
@@ -372,7 +378,7 @@ Each of such function is given REGEXP as an argument.")
         (let ((prefix-info (org-grep-skip-prefix)))
           (when prefix-info
             (let ((method (car prefix-info))
-                  (file (caddr prefix-info)))
+                  (file (cl-caddr prefix-info)))
               (unless (and current-file (string-equal file current-file))
                 (beginning-of-line)
                 (when current-file
@@ -463,8 +469,8 @@ Each of such function is given REGEXP as an argument.")
       (let ((prefix-info (org-grep-skip-prefix)))
         (when prefix-info
           (let* ((text (cadr prefix-info))
-                 (file (caddr prefix-info))
-                 (line (cadddr prefix-info))
+                 (file (cl-caddr prefix-info))
+                 (line (cl-cadddr prefix-info))
                  (base (downcase text))
                  (pair (assoc base base-info)))
             (beginning-of-line)
@@ -483,7 +489,7 @@ Each of such function is given REGEXP as an argument.")
       (delete-region (match-beginning 0) (match-end 0))
       (let ((prefix-info (org-grep-skip-prefix)))
         (let ((text (cadr prefix-info))
-              (file (caddr prefix-info)))
+              (file (cl-caddr prefix-info)))
           (if (or (= (following-char) ?\n)
                   (member text duplicates))
               (unless (and current-file (string-equal file current-file))
