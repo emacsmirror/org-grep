@@ -34,6 +34,10 @@
 
 (require 'org)
 
+(defgroup org-grep nil
+  "Kind of M-x rgrep adapted for Org mode."
+  :group 'org)
+
 (defvar org-grep-directories (list org-directory)
   "List of directories to search, default is org-directory only.")
 
