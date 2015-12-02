@@ -114,7 +114,7 @@ Each of such function is given REGEXP as an argument.")
 ;;;###autoload
 (defun org-grep-full (regexp &optional arg)
   (interactive (org-grep-interact))
-  (let ((org-grep-grep-options (or options org-grep-grep-options)))
+  (let ((org-grep-grep-options (or arg org-grep-grep-options)))
     (org-grep-load-buffer regexp t)
     (let ((buffer-undo-list t))
       (org-grep-display-browse))
